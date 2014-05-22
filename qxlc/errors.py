@@ -6,28 +6,28 @@ from flask import render_template
 from qxlc import app, push, device
 
 
+@app.route("/500")
 @app.errorhandler(Exception)
-def internal_error(err):
-    logging.exception("Exception!")
-    try:
-        # since we have pushbullet, we can do exception notices :D
-        push.push_note(device, "Python Exception", traceback.format_exc())
-    except Exception:
-        logging.exception("Exception sending exception note.")
+def internal_error(exception=None):
+    if exception is not None:
+        # We're actually handling an exception
+        logging.exception("500 Exception")
+        try:
+            # since we have pushbullet, we can do exception notices :D
+            push.push_note(device, "QXLC Exception", traceback.format_exc())
+        except Exception:
+            pass
 
     return render_template("500.html"), 500
 
 
+@app.route("/404")
 @app.errorhandler(404)
-def page_not_found(err):
+def page_not_found(unused=None):
     return render_template("404.html"), 404
 
 
+@app.route("/403")
 @app.errorhandler(403)
-def unauthorized(err):
-    return render_template("403.html"), 403
-
-
-@app.route("/403/")
-def unauthorized_manual():
+def unauthorized(unused=None):
     return render_template("403.html"), 403

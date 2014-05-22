@@ -70,10 +70,10 @@ def get_config():
 
 config = get_config()
 
-app = Flask(__name__, template_folder=os.path.abspath("templates"), static_folder=os.path.abspath("static"))
+app = Flask(__name__)
 
 _api_key = config["pushbullet"]["api-key"]
 device = config["pushbullet"]["device"]
 push = PushBullet(_api_key)
 
-from qxlc import minifier, errors
+from qxlc import minifier, errors, main

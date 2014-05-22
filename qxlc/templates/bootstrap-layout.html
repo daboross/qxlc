@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+{% filter minify %}
+<html>
+    <head>
+        <title>{% block title %}{% endblock %}</title>
+        <!-- meta -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Bootstrap core CSS -->
+        <link href="/qxlc/static/css/bootstrap.css" rel="stylesheet">
+        <!-- Custom styles for this page -->
+        {% block links %}{% endblock %}
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+    </body>
+</html>
+{% endfilter %}

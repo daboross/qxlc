@@ -2,11 +2,11 @@ from flask.templating import render_template
 from qxlc import app
 
 @app.route("/actions/short", methods=["POST"])
-def paste():
+def action_short():
     raise ValueError
 
 @app.route("/actions/paste", methods=["POST"])
-def paste():
+def action_paste():
     raise ValueError
 
 @app.route("/")

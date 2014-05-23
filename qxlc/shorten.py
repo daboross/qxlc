@@ -1,10 +1,13 @@
-from flask.globals import request
+import logging
 
+from flask import redirect
+
+from flask.globals import request
 from flask.templating import render_template
 
 from qxlc import app
 
-from qxlc.database import encode_id, decode_id, store_data
+from qxlc.database import encode_id, decode_id, store_data, get_data, type_id
 
 
 @app.route("/api/shorten", methods=["POST"])
@@ -26,5 +29,19 @@ def index():
 
 @app.route("/<encoded_id>")
 def get_result(encoded_id):
+    if len(encoded_id) != 4:
+        # all of our encoded ids are 4 characters long, so we can just 404 anything else.
+        return render_template("404.html"), 404
 
-    return str(decode_id(encoded_id)), 400
+    try:
+        data_type, data = get_data(decode_id(encoded_id))
+    except ValueError:
+        # ValueError will also catch errors in decode_id if the id is invalid.
+        # we just want to respond with 404 for all invalid or not found ids.
+        return render_template("404.html"), 404
+
+    if data_type == type_id("url"):
+        return redirect(data)
+
+    # we don't know about this id type, why is it in our database?
+    raise ValueError("Invalid data_type: {}".format(data_type))

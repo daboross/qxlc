@@ -1,7 +1,7 @@
-import logging
-
 from sqlalchemy import MetaData, create_engine, Table, Column, String, select
+
 from sqlalchemy.orm import sessionmaker
+
 from sqlalchemy.sql.sqltypes import Integer
 
 from qxlc import config
@@ -41,11 +41,13 @@ valid_digits = "Q9TGiDx3eaRnvEgpHWqAmVIjzX14JsfcLl6SZ7b0YFuw2Kk8O5CBrNohyPtdUM"
 # valid_digits is actually `string.ascii_letters + string.digits`,
 # just shuffled so it looks random
 len_digits = len(valid_digits)
+# 238328 is the first id with a 4-digit encoded url, so we just add 238328 to all internal ids before encoding them,
+# in order to have only 4-digit urls
+minimum_id = 238328
 
 
 def encode_id(x):
-    x += 3843
-    # 3844 is the first 4-digit id, so the id '1' is mapped to the first possible four-digit URL
+    x += minimum_id
     result = []
     while x != 0:
         x, remainder = divmod(x, len_digits)
@@ -58,12 +60,16 @@ def decode_id(s):
     for c in s[::-1]:
         x = x * len_digits + valid_digits.index(c)
     # 3844 is the first 4-digit id, so the id '1' is mapped to the first possible four-digit URL
-    return x - 3843
+    return x - minimum_id
 
 
 # --------------------------------
 # External database access methods
 # --------------------------------
+
+class DataNotFound(ValueError):
+    pass
+
 
 def store_data(data_type, data):
     """
@@ -81,17 +87,43 @@ def store_data(data_type, data):
     select_result = None
     try:
         select_result = db.execute(select([data_table.c.id]).where(data_table.c.type == data_type)
-                                   .where(data_table.c.data == data)).fetchone()
-        if select_result:
-            # we should have only one row, and we only select for one column, so just use [0][0]
-            return select_result[0][0]
+                                   .where(data_table.c.data == data))
+        row = select_result.fetchone()
+        if row is not None:
+            # we should have only one row, and we only select for one column, so just use fetchone()[0]
+            return row[0]
         else:
             insert_result = db.execute(data_table.insert().values(type=data_type, data=data))
             db.commit()
             return insert_result.inserted_primary_key[0]
     finally:
-        db.close()
         if select_result is not None:
             select_result.close()
         if insert_result is not None:
             insert_result.close()
+        db.close()
+
+
+def get_data(data_id):
+    """
+    Gets data stored under the given id. Returns the integer type, and the data stored
+    :type data_id: int
+    :rtype: (int, str)
+    """
+
+    db = db_session()
+    select_result = None
+    try:
+        select_result = db.execute(select([data_table.c.type, data_table.c.data]).where(data_table.c.id == data_id))
+
+        row = select_result.fetchone()
+
+        if row is not None:
+            # First is type, second is data. This is specified above.
+            return row[0], row[1]
+        else:
+            raise DataNotFound
+    finally:
+        if select_result is not None:
+            select_result.close()
+        db.close()

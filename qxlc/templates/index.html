@@ -1,7 +1,41 @@
-{% extends "single-item-layout.html" %}
+{% extends "bootstrap-layout.html" %}
 {% block title %}qx.lc{% endblock %}
-{% block content %}
-    <h1>qx.lc is coming soon!</h1>
-    <p>This server is currently being implemented, and is not yet available.</p>
-    <p>Here's a link to the <a href="https://github.com/daboross/qxlc">github repository</a>.</p>
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 col-xs-12 col-xs-offset-0">
+                <div class="list-group">
+                    <div class="list-group-item">
+                        <h1>qx.lc is currently in beta!</h1>
+
+                        <p>This server is currently being created, and shortened links may be removed regularly
+                            during development. qx.lc currently only functions as a link shortener, but will be expanded
+                            to function as a paste server, and an image server.</p>
+
+                        <p>That being said, feel free to try out the service.</p>
+
+                        <p>qx.lc is developed in Python 3, using the flask web framework. Here's a link to the <a
+                                href="https://github.com/daboross/qxlc">github repository</a>.</p>
+
+                    </div>
+                    <div class="list-group-item">
+                        <h1>Shorten a link!</h1>
+
+                        <div id="link-form">
+                            <textarea id="link-area" class="form-control" rows="2"
+                                      placeholder="Paste the URL here."></textarea>
+
+                            <button id="link-submit-button" type="submit" class="btn btn-default text-center">
+                                Submit
+                            </button>
+                            <div id="link-result"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Javascript - Placed at the end of the document so the pages load faster -->
+    <script src="static/js/jquery.js"></script>
+    <script src="static/js/index.js"></script>
 {% endblock %}

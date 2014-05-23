@@ -1,12 +1,10 @@
 import re
 
 from flask import redirect
-
 from flask.globals import request
 from flask.templating import render_template
 
 from qxlc import app
-
 from qxlc.database import encode_id, decode_id, store_data, get_data, type_id
 
 valid_url = re.compile(
@@ -17,7 +15,7 @@ valid_url = re.compile(
     r'(?:/?|[/?]\S+)$', re.IGNORECASE)
 
 
-@app.route("/api/shorten", methods=["POST"])
+@app.route("/api/shorten")
 def action_short():
     params = request.args
     if not "url" in params:

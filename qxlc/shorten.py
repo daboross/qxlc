@@ -1,5 +1,3 @@
-import logging
-
 from flask import redirect
 
 from flask.globals import request

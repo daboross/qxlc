@@ -76,4 +76,4 @@ _api_key = config["pushbullet"]["api-key"]
 device = config["pushbullet"]["device"]
 push = PushBullet(_api_key)
 
-from qxlc import minifier, errors, main
+from qxlc import minifier, errors, shorten

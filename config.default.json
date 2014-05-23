@@ -1,4 +1,5 @@
 {
+    "database": "sqlite:///qxlc.db",
     "pushbullet": {
         "api-key": "xxx",
         "device": "xxx"

@@ -11,7 +11,7 @@ function submitLink() {
     $('#link-result').prepend($resultRow);
 
     var $request = $.ajax({
-                              url: "/api/shorten?" + $.param({"url": original_url, "api_key": ""}),
+                              url: "/api/shorten?" + $.param({"url": original_url}),
                               type: "GET",
                               dataType: "text"
                           });

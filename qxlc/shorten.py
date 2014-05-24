@@ -27,8 +27,6 @@ def action_short():
     params = request.args
     if not "url" in params:
         return "Missing parameter: url", 400
-    if not "api_key" in params:
-        return "Missing parameter: api_key", 400
     url = params["url"]
     if not valid_url.match(url):
         return "Invalid URL", 400

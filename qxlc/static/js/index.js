@@ -16,6 +16,7 @@ function submitLink() {
                               dataType: "text"
                           });
     $request.success(function (data, textStatus, jqXHR) {
+        $('#link-result-group-item').show()
         var $inner_html = $("<input/>").attr("type", "text").attr("class", "form-control").val(data);
         var $new_html = $("<p/>").append($inner_html);
         $resultRight.replaceWith($new_html);
@@ -24,6 +25,7 @@ function submitLink() {
         });
     });
     $request.fail(function (data, textStatus, jqXHR) {
+        $('#link-result-group-item').show()
         var new_html = $("<p/>").text("Failed: " + data.responseText);
         $resultRight.replaceWith(new_html);
     });

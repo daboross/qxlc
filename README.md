@@ -1,11 +1,13 @@
 qxlc
 ====
 
-Multipurpose web server written in Python 3 using flask.
+Multipurpose flask-app written in Python 3.
+
+Currently implemented:
+* Link shortening
 
 Will eventually contain:
 * Pastebin server
-* URL Shortener
 * Image server
 
-This is a work in progress. It's current state runs at http://qx.lc
+This is a work in progress. Its current state runs at http://qx.lc.

@@ -3,8 +3,12 @@ function submitLink() {
     var original_url = $linkArea.val();
     $linkArea.val("");
 
-    var $result = $('<div/>').text('Submitting...');
-    $("#link-result").prepend($result);
+    var $resultRow = $('<tr/>');
+    var $resultLeft = $('<p/>').text(original_url);
+    var $resultRight = $('<p>').text('Submitting...');
+    $resultRow.append($('<td/>').append($resultLeft));
+    $resultRow.append($('<td/>').append($resultRight));
+    $('#link-result').prepend($resultRow);
 
     var $request = $.ajax({
                               url: "/api/shorten?" + $.param({"url": original_url, "api_key": ""}),
@@ -12,14 +16,22 @@ function submitLink() {
                               dataType: "text"
                           });
     $request.success(function (data, textStatus, jqXHR) {
-        var inner_html = $("<a/>").attr("href", data).text("[" + original_url + "] " + data);
-        var new_html = $("<p/>").append(inner_html);
-        $result.replaceWith(new_html)
+        var $inner_html = $("<input/>").attr("type", "text").attr("class", "form-control").val(data);
+        var $new_html = $("<p/>").append($inner_html);
+        $resultRight.replaceWith($new_html);
+        $inner_html.click(function () {
+            select($inner_html);
+        });
     });
     $request.fail(function (data, textStatus, jqXHR) {
-        var new_html = $("<p/>").text("[" + original_url + "] Failed: " + data.responseText);
-        $result.replaceWith(new_html)
+        var new_html = $("<p/>").text("Failed: " + data.responseText);
+        $resultRight.replaceWith(new_html);
     });
+}
+function select(element) {
+    console.log("Selecting " + element);
+    element.focus();
+    element.select();
 }
 
 $(document).ready(function () {

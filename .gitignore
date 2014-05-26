@@ -104,3 +104,4 @@ htmlcov/
 nosetests.xml
 coverage.xml
 /config.json
+/data

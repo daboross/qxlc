@@ -8,7 +8,7 @@ function submitLink() {
     var $resultRight = $('<p>').text('Submitting...');
     $resultRow.append($('<td/>').append($resultLeft));
     $resultRow.append($('<td/>').append($resultRight));
-    $('#link-result').prepend($resultRow);
+    $('#results-table').prepend($resultRow);
 
     var $request = $.ajax({
                               url: "/api/shorten?" + $.param({"url": original_url}),
@@ -16,7 +16,7 @@ function submitLink() {
                               dataType: "text"
                           });
     $request.success(function (data, textStatus, jqXHR) {
-        $('#link-result-group-item').show()
+        $('#results-div').show();
         var $inner_html = $("<input/>").attr("type", "text").attr("class", "form-control").val(data);
         var $new_html = $("<p/>").append($inner_html);
         $resultRight.replaceWith($new_html);
@@ -25,13 +25,47 @@ function submitLink() {
         });
     });
     $request.fail(function (data, textStatus, jqXHR) {
-        $('#link-result-group-item').show()
+        $('#results-div').show();
         var new_html = $("<p/>").text("Failed: " + data.responseText);
         $resultRight.replaceWith(new_html);
     });
 }
+
+function submitPaste() {
+    var $linkArea = $("#paste-area");
+    var data = $linkArea.val();
+    $linkArea.val("");
+
+    var $resultRow = $('<tr/>');
+    var $resultLeft = $('<p/>').text(data.split('\n')[0]);
+    var $resultRight = $('<p>').text('Submitting...');
+    $resultRow.append($('<td/>').append($resultLeft));
+    $resultRow.append($('<td/>').append($resultRight));
+    $('#results-table').prepend($resultRow);
+
+    var $request = $.ajax({
+                              url: "/api/paste",
+                              type: "POST",
+                              data: {"paste": data},
+                              dataType: "text"
+                          });
+    $request.success(function (data, textStatus, jqXHR) {
+        $('#results-div').show();
+        var $inner_html = $("<input/>").attr("type", "text").attr("class", "form-control").val(data);
+        var $new_html = $("<p/>").append($inner_html);
+        $resultRight.replaceWith($new_html);
+        $inner_html.click(function () {
+            select($inner_html);
+        });
+    });
+    $request.fail(function (data, textStatus, jqXHR) {
+        $('#results-div').show();
+        var new_html = $("<p/>").text("Failed: " + data.responseText);
+        $resultRight.replaceWith(new_html);
+    });
+}
+
 function select(element) {
-    console.log("Selecting " + element);
     element.focus();
     element.select();
 }
@@ -44,5 +78,6 @@ $(document).ready(function () {
         }
         return true;
     });
-    $("#link-submit-button").click(submitLink);
+    $("#link-submit").click(submitLink);
+    $("#paste-submit").click(submitPaste)
 });

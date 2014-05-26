@@ -1,11 +1,9 @@
 import re
 
-from flask import redirect
 from flask.globals import request
-from flask.templating import render_template
 
 from qxlc import app
-from qxlc.database import encode_id, decode_id, store_data, get_data, type_id
+from qxlc.database import encode_id, store_data
 
 valid_url = re.compile(
     r'^(?:(?:http|ftp)s?://)?'  # http:// or https://
@@ -33,28 +31,3 @@ def action_short():
     if not url_with_protocol.match(url):
         url = "http://{}".format(url)
     return "http://qx.lc/{}".format(encode_id(store_data("url", url)))
-
-
-@app.route("/")
-def index():
-    return render_template("index.html")
-
-
-@app.route("/<encoded_id>")
-def get_result(encoded_id):
-    if len(encoded_id) != 4:
-        # all of our encoded ids are 4 characters long, so we can just 404 anything else.
-        return render_template("404.html"), 404
-
-    try:
-        data_type, data = get_data(decode_id(encoded_id))
-    except ValueError:
-        # ValueError will also catch errors in decode_id if the id is invalid.
-        # we just want to respond with 404 for all invalid or not found ids.
-        return render_template("404.html"), 404
-
-    if data_type == type_id("url"):
-        return redirect(data)
-
-    # we don't know about this id type, why is it in our database?
-    raise ValueError("Invalid data_type: {}".format(data_type))

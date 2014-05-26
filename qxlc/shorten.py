@@ -20,12 +20,18 @@ url_with_protocol = re.compile(
     r'(?:/?|[/?]\S+)$', re.IGNORECASE)
 
 
-@app.route("/api/shorten")
+@app.route("/api/shorten", methods=["POST"])
 def action_short():
     params = request.args
+    if request.method == "GET":
+        params = request.args
+    elif request.method == "POST":
+        params = request.form
+
     if not "url" in params:
         return "Missing parameter: url", 400
     url = params["url"]
+
     if not valid_url.match(url):
         return "Invalid URL", 400
     if not url_with_protocol.match(url):

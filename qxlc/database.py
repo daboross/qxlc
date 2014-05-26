@@ -1,8 +1,8 @@
+from datetime import datetime
+
 from sqlalchemy import MetaData, create_engine, Table, Column, String, select
-
 from sqlalchemy.orm import sessionmaker
-
-from sqlalchemy.sql.sqltypes import Integer
+from sqlalchemy.sql.sqltypes import Integer, DateTime
 
 from qxlc import config
 
@@ -16,7 +16,9 @@ data_table = Table(
     metadata,
     Column("id", Integer, primary_key=True, autoincrement=True),
     Column("type", Integer),
-    Column("data", String)
+    Column("data", String),
+    Column("upload", DateTime),
+    Column("access", DateTime)
 )
 
 if not data_table.exists(db_engine):
@@ -93,7 +95,8 @@ def store_data(data_type, data):
             # we should have only one row, and we only select for one column, so just use fetchone()[0]
             return row[0]
         else:
-            insert_result = db.execute(data_table.insert().values(type=data_type, data=data))
+            time = datetime.utcnow()
+            insert_result = db.execute(data_table.insert().values(type=data_type, data=data, upload=time, access=time))
             db.commit()
             return insert_result.inserted_primary_key[0]
     finally:
@@ -119,6 +122,7 @@ def get_data(data_id):
         row = select_result.fetchone()
 
         if row is not None:
+            db.execute(data_table.update().where(data_table.c.id == data_id).values(access=datetime.utcnow()))
             # First is type, second is data. This is specified above.
             return row[0], row[1]
         else:
@@ -126,4 +130,5 @@ def get_data(data_id):
     finally:
         if select_result is not None:
             select_result.close()
+        db.commit()
         db.close()

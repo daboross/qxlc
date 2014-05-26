@@ -25,7 +25,7 @@ def action_paste():
     raw_id = store_data("paste", hashlib.md5(data.encode()).hexdigest())  # use md5sum as data to detect duplicates
     filepath = os.path.join(paste_path, str(raw_id))
     if not os.path.exists(filepath):
-        with  open(filepath, "xb", encoding="utf-8", errors="replace") as file:
+        with codecs.open(filepath, "xb", encoding="utf-8", errors="replace") as file:
             file.write(data)
     return "http://qx.lc/{}".format(encode_id(raw_id))
 

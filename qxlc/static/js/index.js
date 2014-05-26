@@ -31,13 +31,18 @@ function submitLink() {
     });
 }
 
+function truncateData(data) {
+    data = data.split("\n")[0]
+    data = data.substring(0, Math.min(data.length, 10))
+}
+
 function submitPaste() {
-    var $linkArea = $("#paste-area");
-    var data = $linkArea.val();
-    $linkArea.val("");
+    var $pastArea = $("#paste-area");
+    var data = $pastArea.val();
+    $pastArea.val("");
 
     var $resultRow = $('<tr/>');
-    var $resultLeft = $('<p/>').text(data.split('\n')[0]);
+    var $resultLeft = $('<p/>').text(truncateData(data));
     var $resultRight = $('<p>').text('Submitting...');
     $resultRow.append($('<td/>').append($resultLeft));
     $resultRow.append($('<td/>').append($resultRight));

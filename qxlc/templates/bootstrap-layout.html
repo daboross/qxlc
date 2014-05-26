@@ -7,13 +7,29 @@
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <!-- Bootstrap core CSS -->
-            <link href="/static/css/bootstrap.css" rel="stylesheet">
+            <link href="{{ url_for("static", filename="css/bootstrap.css") }}" rel="stylesheet">
+            <link href="{{ url_for("static", filename="css/footer.css") }}" rel="stylesheet">
             <!-- Custom styles for this page -->
             {% block links %}{% endblock %}
         </head>
         <body>
-            {% block body %}{% endblock %}
+            {% block navbar %}{% endblock %}
+            <div class="footer-wrap">
+                {% block body %}{% endblock %}
+            </div>
             {% block javascript %}{% endblock %}
+            <footer id="footer" class="footer">
+                <div class="panel-footer">
+                    <div class="container">
+                        {% block footer %}
+                            <p class="text-muted credit">
+                                qx.lc is developed in Python 3, using the flask web framework. The source code and be
+                                found at the <a ref="https://github.com/daboross/qxlc">github repository</a>.
+                            </p>
+                        {% endblock %}
+                    </div>
+                </div>
+            </footer>
         </body>
     </html>
 {% endfilter %}

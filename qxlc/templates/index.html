@@ -2,20 +2,21 @@
 {% block title %}qx.lc{% endblock %}
 {% block body %}
     <div class="container">
+        <h3 class="title text-muted">qx.lc - beta</h3>
+
         <div class="row">
-            <div class="col-md-8  col-md-offset-2 col-xs-12 col-xs-offset-0">
-                <h1 class="title">qx.lc Beta</h1>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2 col-xs-12 col-xs-offset-0">
+            <div class="col-md-8 col-xs-12">
                 <div class="list-group">
                     <div class="list-group-item">
-                        <p>qx.lc is developed in Python 3, using the flask web framework. The source and be found at the
-                            <a href="https://github.com/daboross/qxlc">github repository</a></p>
+                        <p>
+                            qx.lc is developed in Python 3, using the flask web framework. The source and be found at
+                            the <a href="https://github.com/daboross/qxlc">github repository</a>.
+                        </p>
 
-                        <p>Note that qx.lc is in active development, and may not be completely stable. Please do not
-                            depend on qx.lc links to remain available for long periods of time.</p>
+                        <p>
+                            Note that qx.lc is in active development, and is not completely stable. Please do not
+                            depend on qx.lc links to remain available, as they will be removed regularly.
+                        </p>
 
                     </div>
                     <div class="list-group-item">
@@ -23,7 +24,7 @@
 
                         <div class="row">
                             <div class="col-md-10 col-xs-8">
-                                <input id="link-area" type="text" class="form-control" placeholder="http://google.com">
+                                <input id="link-area" type="text" class="form-control" placeholder="http://example.com">
                             </div>
                             <div class="col-md-2 col-xs-4">
                                 <button id="link-submit" type="submit" class="btn btn-default text-center">
@@ -34,26 +35,22 @@
                     </div>
                     <div class="list-group-item">
                         <h3 class="text-muted">Paste</h3>
-
-                        <div class="code">
-                            <textarea style="width:100%" id="paste-area" rows=3 placeholder="Paste here"></textarea>
-                        </div>
-                        <button style="width:100%" id="paste-submit" type=submit class="btn btn-default text-center">
+                        <textarea id="paste-area" rows=3 placeholder="Enter text here..."
+                                  class="form-control fill"></textarea>
+                        <button id="paste-submit" type=submit class="btn btn-default text-center fill">
                             Submit
                         </button>
                     </div>
-                    <div id="results-div" hidden>
-                        <div class="list-group-item">
-                            <table id="results-table" class="table"></table>
-                        </div>
-                    </div>
                 </div>
+            </div>
+            <div id="results-div" class="col-md-4 col-xs-12" hidden>
+                <table id="results-table" class="table"></table>
             </div>
         </div>
     </div>
 {% endblock %}
 {% block javascript %}
     <!-- Javascript - Placed at the end of the document so the pages load faster -->
-    <script src="static/js/jquery.js"></script>
-    <script src="static/js/index.js"></script>
+    <script src="{{ url_for("static", filename="js/jquery.js") }}"></script>
+    <script src="{{ url_for("static", filename="js/index.js") }}"></script>
 {% endblock %}

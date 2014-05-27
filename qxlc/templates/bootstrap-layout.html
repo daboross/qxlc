@@ -6,11 +6,12 @@
             <!-- meta -->
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <!-- Bootstrap core CSS -->
-            <link href="{{ url_for("static", filename="css/bootstrap.css") }}" rel="stylesheet">
-            <link href="{{ url_for("static", filename="css/footer.css") }}" rel="stylesheet">
-            <!-- Custom styles for this page -->
-            {% block links %}{% endblock %}
+            <!-- Styles -->
+            {% block links %}
+                {% assets "layout_css" %}
+                    <link href="{{ ASSET_URL }}" rel="stylesheet">
+                {% endassets %}
+            {% endblock %}
         </head>
         <body>
             {% block navbar %}{% endblock %}

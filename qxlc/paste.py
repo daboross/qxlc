@@ -21,7 +21,7 @@ if not os.path.exists(paste_path):
     logging.info("Created directory {}".format(paste_path))
 
 _formatter = HtmlFormatter(linenos="table")
-_highlight_css = _formatter.get_style_defs('.highlight')
+_highlight_css = _formatter.get_style_defs("")
 
 
 @app.route("/api/paste", methods=["POST"])

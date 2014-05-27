@@ -7,6 +7,8 @@
 *.so
 __pycache__/
 *.py[cod]
+*.min.css
+*.min.js
 
 # Git #
 #######

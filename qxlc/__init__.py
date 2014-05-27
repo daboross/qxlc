@@ -19,6 +19,7 @@ import os
 import sys
 
 from flask import Flask
+from flask.ext.assets import Environment, Bundle
 
 from pushbullet import PushBullet
 
@@ -71,6 +72,14 @@ def get_config():
 config = get_config()
 
 app = Flask(__name__)
+
+# assets
+
+assets = Environment(app)
+layout_css_bundle = Bundle("css/bootstrap.css", "css/footer.css", filters='cssmin', output='css/layout.min.css')
+index_js_bundle = Bundle("js/index.js", "js/jquery.js", filters="jsmin", output="js/index.min.js")
+assets.register("layout_css", layout_css_bundle)
+assets.register("index_js", index_js_bundle)
 
 _api_key = config["pushbullet"]["api-key"]
 device = config["pushbullet"]["device"]

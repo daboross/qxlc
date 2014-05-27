@@ -1,4 +1,7 @@
 pygments
 sqlalchemy
 flask
+flask-assets
 htmlmin
+cssmin
+jsmin

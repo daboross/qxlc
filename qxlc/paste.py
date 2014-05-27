@@ -3,6 +3,8 @@ import hashlib
 import logging
 import os
 
+import cssmin
+
 from flask import render_template, abort
 from flask.globals import request
 from pygments import highlight
@@ -21,7 +23,7 @@ if not os.path.exists(paste_path):
     logging.info("Created directory {}".format(paste_path))
 
 _formatter = HtmlFormatter(linenos="table")
-_highlight_css = _formatter.get_style_defs("")
+_highlight_css = cssmin.cssmin(_formatter.get_style_defs(""))
 
 
 @app.route("/api/paste", methods=["POST"])

@@ -10,7 +10,8 @@ def index():
 
 
 @app.route("/<encoded_id>")
-def get_result(encoded_id):
+@app.route("/<encoded_id>.<file_extension>")
+def get_result(encoded_id, file_extension=None):
     if len(encoded_id) != 4:
         # all of our encoded ids are 4 characters long, so we can just 404 anything else.
         return render_template("404.html"), 404
@@ -25,7 +26,7 @@ def get_result(encoded_id):
     if data_type == type_id("url"):
         return redirect(data)
     elif data_type == type_id("paste"):
-        return paste.view_paste(raw_id)
+        return paste.view_paste(raw_id, file_extension=file_extension)
 
     # we don't know about this id type, why is it in our database?
     raise ValueError("Invalid data_type: {}".format(data_type))

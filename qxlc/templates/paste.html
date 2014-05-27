@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 {% filter minify %}
-<html>
-    <head>
-        <meta charset="utf-8">
-    </head>
-    <body>
-        <pre>{{ paste_data }}</pre>
-    </body>
-</html>
+    <html>
+        <head>
+            <meta charset="utf-8">
+            <link href="{{ url_for("highlight_css") }}" rel="stylesheet">
+        </head>
+        <body>
+            {% if raw_paste_data %}
+                <pre>{{ raw_paste_data }}</pre>
+            {% else %}
+                {{ paste_data|safe }}
+            {% endif %}
+        </body>
+    </html>
 {% endfilter %}

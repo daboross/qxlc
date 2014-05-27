@@ -19,7 +19,7 @@ if not os.path.exists(paste_path):
     os.makedirs(paste_path)
     logging.info("Created directory {}".format(paste_path))
 
-_formatter = HtmlFormatter()
+_formatter = HtmlFormatter(linenos="table")
 _highlight_css = _formatter.get_style_defs('.highlight')
 
 

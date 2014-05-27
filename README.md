@@ -46,4 +46,15 @@ Replace 'azd' with the user who has read/write access to /var/www/qxlc.
 Put virtualhost in the file `/etc/apache2/sites-available/qxlc.conf`, then use `[sudo] a2ensite qxlc.conf`.
 
 ##### Step 3)
+
+Copy /var/www/qxlc/config.default.json to /var/www/qxlc/config.json. Then edit the config with the values you need for your setup.
+
+"base_url" should be the base URL for the qxlc app. It shouldn't have an ending slash. In my case, 'http://qx.lc'.
+
+"database" should be the SQLAlchemy database URL for the database to store links and IDs in.
+
+"pushbullet" is the config for pushbullet notifications of errors. Put your push bullet api key in "api-key" and the device to notify in "device".
+
+##### Step 4)
+
 Restart apache2, and you should be good!

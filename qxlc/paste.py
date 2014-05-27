@@ -8,6 +8,7 @@ from flask.globals import request
 from pygments import highlight
 from pygments.formatters.html import HtmlFormatter
 from pygments.lexers import guess_lexer, get_lexer_for_filename
+from pygments.lexers.special import TextLexer
 from pygments.util import ClassNotFound
 
 from qxlc import app
@@ -50,11 +51,10 @@ def view_paste(raw_id, file_extension=None):
         else:
             lexer = guess_lexer(data)
     except ClassNotFound:
-        # render without formatting
-        return render_template("paste.html", raw_paste_data=data)
-    else:
-        # render with formatting
-        return render_template("paste.html", paste_data=highlight(data, lexer, _formatter))
+        lexer = TextLexer()
+
+    return render_template("paste.html", file_extension=file_extension, lexer_name=lexer.name,
+                           paste_data=highlight(data, lexer, _formatter))
 
 
 @app.route("/css/highlight.css")

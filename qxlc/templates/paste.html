@@ -6,11 +6,8 @@
             <link href="{{ url_for("highlight_css") }}" rel="stylesheet" type="text/css">
         </head>
         <body>
-            {% if raw_paste_data %}
-                <pre>{{ raw_paste_data }}</pre>
-            {% else %}
-                {{ paste_data|safe }}
-            {% endif %}
+            <h3>Extension: "{{ file_extension }}", Lexer: "{{ lexer_name }}"</h3>
+            {{ paste_data|safe }}
         </body>
     </html>
 {% endfilter %}

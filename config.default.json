@@ -3,5 +3,6 @@
     "pushbullet": {
         "api-key": "xxx",
         "device": "xxx"
-    }
+    },
+    "base_url": "http://qx.lc"
 }

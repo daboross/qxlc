@@ -23,7 +23,7 @@ from flask.ext.assets import Environment, Bundle
 
 from pushbullet import PushBullet
 
-__all__ = ["app", "config", "push", "device"]
+__all__ = ["app", "config", "push", "device", "base_url", "database"]
 
 os.chdir(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 logging.config.dictConfig({
@@ -89,6 +89,9 @@ _api_key = config["pushbullet"]["api-key"]
 device = config["pushbullet"]["device"]
 push = PushBullet(_api_key)
 
+# base url
+base_url = config["base_url"]
+
 # imports
 
-from qxlc import minifier, errors, shorten, paste, view
+from qxlc import database, minifier, errors, shorten, paste, view

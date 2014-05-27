@@ -14,7 +14,7 @@ from pygments.lexers import guess_lexer, get_lexer_for_filename
 from pygments.lexers.special import TextLexer
 from pygments.util import ClassNotFound
 
-from qxlc import app
+from qxlc import app, base_url
 from qxlc.database import encode_id, store_data
 
 paste_path = os.path.join(os.path.abspath("data"), "pastes")
@@ -38,7 +38,7 @@ def action_paste():
     if not os.path.exists(filepath):
         with codecs.open(filepath, "xb", encoding="utf-8", errors="replace") as file:
             file.write(data)
-    return "http://qx.lc/{}".format(encode_id(raw_id))
+    return "{}/{}".format(base_url, encode_id(raw_id))
 
 
 def view_paste(raw_id, file_extension=None):

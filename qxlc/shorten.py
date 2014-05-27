@@ -2,7 +2,7 @@ import re
 
 from flask.globals import request
 
-from qxlc import app
+from qxlc import app, base_url
 from qxlc.database import encode_id, store_data
 
 valid_url = re.compile(
@@ -36,4 +36,4 @@ def action_short():
         return "Invalid URL", 400
     if not url_with_protocol.match(url):
         url = "http://{}".format(url)
-    return "http://qx.lc/{}".format(encode_id(store_data("url", url)))
+    return "{}/{}".format(base_url, encode_id(store_data("url", url)))

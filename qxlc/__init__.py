@@ -78,11 +78,17 @@ app = Flask(__name__)
 assets = Environment(app)
 layout_css_bundle = Bundle("css/bootstrap.css", "css/footer.css", filters='cssmin', output='css/layout.min.css')
 index_js_bundle = Bundle("js/index.js", "js/jquery.js", filters="jsmin", output="js/index.min.js")
+paste_css_bundle = Bundle("css/paste.css", filters="cssmin", output="css/paste.min.css")
 assets.register("layout_css", layout_css_bundle)
 assets.register("index_js", index_js_bundle)
+assets.register("paste_css", paste_css_bundle)
+
+# push bullet
 
 _api_key = config["pushbullet"]["api-key"]
 device = config["pushbullet"]["device"]
 push = PushBullet(_api_key)
+
+# imports
 
 from qxlc import minifier, errors, shorten, paste, view

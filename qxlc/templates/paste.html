@@ -4,9 +4,11 @@
         <head>
             <meta charset="utf-8">
             <link href="{{ url_for("highlight_css") }}" rel="stylesheet" type="text/css">
+            {% assets "paste_css" %}
+                <link href="{{ ASSET_URL }}" rel="stylesheet" type="text/css">
+            {% endassets %}
         </head>
         <body>
-            <h3>Extension: "{{ file_extension }}", Lexer: "{{ lexer_name }}"</h3>
             {{ paste_data|safe }}
         </body>
     </html>

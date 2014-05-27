@@ -7,6 +7,7 @@ import cssmin
 
 from flask import render_template, abort
 from flask.globals import request
+from flask.wrappers import Response
 from pygments import highlight
 from pygments.formatters.html import HtmlFormatter
 from pygments.lexers import guess_lexer, get_lexer_for_filename
@@ -23,7 +24,7 @@ if not os.path.exists(paste_path):
     logging.info("Created directory {}".format(paste_path))
 
 _formatter = HtmlFormatter(linenos="table")
-_highlight_css = cssmin.cssmin(_formatter.get_style_defs(""))
+_highlight_css = cssmin.cssmin(_formatter.get_style_defs("body"))
 
 
 @app.route("/api/paste", methods=["POST"])
@@ -55,10 +56,9 @@ def view_paste(raw_id, file_extension=None):
     except ClassNotFound:
         lexer = TextLexer()
 
-    return render_template("paste.html", file_extension=file_extension, lexer_name=lexer.name,
-                           paste_data=highlight(data, lexer, _formatter))
+    return render_template("paste.html", paste_data=highlight(data, lexer, _formatter))
 
 
 @app.route("/css/highlight.css")
 def highlight_css():
-    return _highlight_css
+    return Response(_highlight_css, mimetype="text/css")

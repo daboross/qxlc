@@ -1,4 +1,5 @@
 pygments
+requests
 sqlalchemy
 flask
 flask-assets

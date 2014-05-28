@@ -21,8 +21,6 @@ import sys
 from flask import Flask
 from flask.ext.assets import Environment, Bundle
 
-from pushbullet import PushBullet
-
 __all__ = ["app", "config", "push", "device", "base_url", "database"]
 
 os.chdir(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -50,6 +48,12 @@ logging.config.dictConfig({
             "formatter": "full",
             "level": "DEBUG",
             "filename": "qxlc.log"
+        },
+        "exception_file": {
+            "class": "logging.FileHandler",
+            "formatter": "full",
+            "level": "ERROR",
+            "filename": "qxlc_errors.log"
         }
     },
     "root": {
@@ -85,9 +89,15 @@ assets.register("paste_css", paste_css_bundle)
 
 # push bullet
 
+
 _api_key = config["pushbullet"]["api-key"]
 device = config["pushbullet"]["device"]
-push = PushBullet(_api_key)
+if _api_key != "xxx" and device != "xxx":
+    from pushbullet import PushBullet
+
+    push = PushBullet(_api_key)
+else:
+    push = None
 
 # base url
 base_url = config["base_url"]

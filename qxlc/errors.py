@@ -10,11 +10,12 @@ from qxlc import app, push, device
 @app.errorhandler(Exception)
 def internal_error(exception=None):
     if exception is not None:
-        # We're actually handling an exception
+        # We're actually handling an exception, not /500
         logging.exception("500 Exception")
         try:
-            # since we have pushbullet, we can do exception notices :D
-            push.push_note(device, "QXLC Exception", traceback.format_exc())
+            # exception notices!
+            if push is not None:
+                push.push_note(device, "QXLC Exception", traceback.format_exc())
         except Exception:
             pass
 

@@ -3,7 +3,19 @@ import traceback
 
 from flask import render_template
 
-from qxlc import app, push, device
+from qxlc import app, config
+
+if "pushbullet" in config:
+    _api_key = config["pushbullet"]["api-key"]
+    device = config["pushbullet"]["device"]
+    if _api_key != "xxx" and device != "xxx":
+        from pushbullet import PushBullet
+
+        push = PushBullet(_api_key)
+    else:
+        push = None
+else:
+    push = None
 
 
 @app.route("/500")

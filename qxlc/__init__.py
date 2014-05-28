@@ -21,7 +21,7 @@ import sys
 from flask import Flask
 from flask.ext.assets import Environment, Bundle
 
-__all__ = ["app", "config", "push", "device", "base_url", "database"]
+__all__ = ["app", "config", "base_url", "database"]
 
 os.chdir(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 logging.config.dictConfig({
@@ -86,18 +86,6 @@ paste_css_bundle = Bundle("css/paste.css", filters="cssmin", output="css/paste.m
 assets.register("layout_css", layout_css_bundle)
 assets.register("index_js", index_js_bundle)
 assets.register("paste_css", paste_css_bundle)
-
-# push bullet
-
-
-_api_key = config["pushbullet"]["api-key"]
-device = config["pushbullet"]["device"]
-if _api_key != "xxx" and device != "xxx":
-    from pushbullet import PushBullet
-
-    push = PushBullet(_api_key)
-else:
-    push = None
 
 # base url
 base_url = config["base_url"]

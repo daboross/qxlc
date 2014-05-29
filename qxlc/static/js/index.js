@@ -26,6 +26,7 @@ function submitLink() {
         $resultInner.click(function () {
             select($resultInner);
         });
+        select($resultInner);
     });
     $request.fail(function (data, textStatus, jqXHR) {
         $('#results-div').show();
@@ -62,6 +63,7 @@ function submitPaste() {
         $resultInner.click(function () {
             select($resultInner);
         });
+        select($resultInner);
     });
     $request.fail(function (data, textStatus, jqXHR) {
         $('#results-div').show();

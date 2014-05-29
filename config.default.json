@@ -3,5 +3,5 @@
     "base_url": "http://qx.lc",
     "title": "qx.lc - beta",
     "header_message": "qx.lc is in active development, and is not completely stable. All stored links and data will be removed regularly.",
-    "footer_message": "qx.lc is developed in Python 3, using the flask web framework. The source code and be found at the <a href=\"https://github.com/daboross/qxlc\">github repository"
+    "footer_message": "qx.lc is developed in Python 3, using the flask web framework. The source code and be found at the <a href=\"https://github.com/daboross/qxlc\">github repository</a>."
 }

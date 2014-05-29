@@ -3,13 +3,34 @@
     <html>
         <head>
             <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <link href="{{ url_for("highlight_css") }}" rel="stylesheet" type="text/css">
             {% assets "paste_css" %}
                 <link href="{{ ASSET_URL }}" rel="stylesheet" type="text/css">
             {% endassets %}
         </head>
         <body>
+            <div class="panel-footer">
+                <div class="container">
+                    <ul class="nav nav-pills">
+                        <li><a href="{{ raw_url }}">Raw</a></li>
+                        <li class="dropdown pull-right">
+                            <a href="#" data-toggle="dropdown" class="dropdown-toggle">{{ current_lexer }}<b
+                                    class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                {% for lexer in lexers %}
+                                    <li><a href="{{ lexer_url + lexer[1] }}">{{ lexer[0] }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
             {{ paste_data|safe }}
+            <!-- Javascript - Placed at the end of the document so the pages load faster -->
+            {% assets "paste_js" %}
+                <script src="{{ ASSET_URL }}"></script>
+            {% endassets %}
         </body>
     </html>
 {% endfilter %}

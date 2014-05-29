@@ -1,0 +1,17 @@
+table {
+    border: none !important;
+}
+
+td {
+    border: none !important;
+}
+
+th {
+    border: none !important;
+}
+
+* {
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    border-radius: 0 !important;
+}

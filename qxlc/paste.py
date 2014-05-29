@@ -1,7 +1,9 @@
 import codecs
 import hashlib
 import logging
+from operator import itemgetter
 import os
+import re
 
 import cssmin
 from flask import render_template, abort
@@ -25,7 +27,9 @@ if not os.path.exists(paste_path):
 _formatter = HtmlFormatter(linenos="table")
 _highlight_css = cssmin.cssmin(_formatter.get_style_defs("body"))
 
-_all_lexers = [(l[0], l[2][0][2:]) for l in get_all_lexers() if l[2]]
+_all_lexers = sorted(
+    [(l[0], l[2][0][2:]) for l in get_all_lexers()
+     if l[2] and len(l[0].split()) == 1 and re.match(r"\*\.[a-zA-Z0-9]*", l[2][0])], key=itemgetter(0))
 
 
 @app.route("/api/paste", methods=["POST"])

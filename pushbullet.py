@@ -13,8 +13,10 @@ class PushBullet():
                          "User-Agent": "qxlc (http://qx.lc)"}
         self._args = {'headers': self._headers, 'auth': HTTPBasicAuth(self.api_key, ""), 'verify': True}
 
-    def push_note(self, title, body):
+    def push_note(self, title, body, device=None):
         data = {'type': "note", 'title': title, 'body': body}
+        if device:
+            data["device_iden"] = device
         r = requests.post(HOST + "pushes", json.dumps(data), **self._args)
         return r
 

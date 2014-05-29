@@ -23,10 +23,7 @@
                 <div class="panel-footer">
                     <div class="container">
                         {% block footer %}
-                            <p class="text-muted credit">
-                                qx.lc is developed in Python 3, using the flask web framework. The source code and be
-                                found at the <a href="https://github.com/daboross/qxlc">github repository</a>.
-                            </p>
+                            <p class="text-muted credit">{{ config["qxlc.footer"]|safe }}</p>
                         {% endblock %}
                     </div>
                 </div>

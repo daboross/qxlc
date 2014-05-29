@@ -5,15 +5,11 @@ from flask import render_template
 
 from qxlc import app, config
 
-if "pushbullet" in config:
-    _api_key = config["pushbullet"]["api-key"]
-    device = config["pushbullet"]["device"]
-    if _api_key != "xxx" and device != "xxx":
-        from pushbullet import PushBullet
+_api_key = config.get("pushbullet_key")
+if _api_key:
+    from pushbullet import PushBullet
 
-        push = PushBullet(_api_key)
-    else:
-        push = None
+    push = PushBullet(_api_key)
 else:
     push = None
 
@@ -27,7 +23,7 @@ def internal_error(exception=None):
         try:
             # exception notices!
             if push is not None:
-                push.push_note(device, "QXLC Exception", traceback.format_exc())
+                push.push_note("QXLC Exception", traceback.format_exc())
         except Exception:
             pass
 

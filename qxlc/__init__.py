@@ -87,8 +87,16 @@ assets.register("layout_css", layout_css_bundle)
 assets.register("index_js", index_js_bundle)
 assets.register("paste_css", paste_css_bundle)
 
-# base url
+# config values
 base_url = config["base_url"]
+title = config.get("title", "qxlc - beta")
+header_message = config.get("header_message", "qx.lc - default header message (edit in config)")
+footer_message = config.get("footer_message", "qx.lc - default footer message (edit in config)")
+# for templates
+app.config["qxlc.base_url"] = base_url
+app.config["qxlc.header"] = header_message
+app.config["qxlc.footer"] = footer_message
+app.config["qxlc.title"] = title
 
 # imports
 

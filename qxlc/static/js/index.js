@@ -24,9 +24,9 @@ function submitLink() {
         var $newResult = $("<p/>").append($resultInner);
         $resultRight.replaceWith($newResult);
         $resultInner.click(function () {
-            select($resultInner);
+            selectAll($resultInner);
         });
-        select($resultInner);
+        selectAll($resultInner);
     });
     $request.fail(function (data, textStatus, jqXHR) {
         $('#results-div').show();
@@ -61,9 +61,9 @@ function submitPaste() {
         var $newResult = $("<p/>").append($resultInner);
         $resultRight.replaceWith($newResult);
         $resultInner.click(function () {
-            select($resultInner);
+            selectAll($resultInner);
         });
-        select($resultInner);
+        selectAll($resultInner);
     });
     $request.fail(function (data, textStatus, jqXHR) {
         $('#results-div').show();
@@ -83,19 +83,38 @@ function truncateData(long_data) {
     }
     return data
 }
-function select(element) {
+function selectAll(element) {
     element.focus();
     element.select();
 }
+function cursorSelect(element) {
+    element.focus();
+    element.setSelectionRange(0, 0);
+}
 
 $(document).ready(function () {
-    $('#link-area').keydown(function (event) {
-        if (event.keyCode == 13) {
+    var linkArea = $('#link-area');
+    var pasteArea = $('#paste-area');
+    var linkSubmit = $('#link-submit');
+    var pasteSubmit = $('#paste-submit');
+
+    linkArea.keydown(function (event) {
+        if (event.keyCode == 13) { // enter
             submitLink();
             return false;
         }
         return true;
     });
-    $("#link-submit").click(submitLink);
-    $("#paste-submit").click(submitPaste)
+    pasteArea.keydown(function (event) {
+        if (event.ctrlKey && event.keyCode == 83) { // ctrl+s
+            submitPaste();
+            return false;
+        }
+        return true;
+    });
+
+    linkSubmit.click(submitLink);
+    pasteSubmit.click(submitPaste);
+
+    cursorSelect(pasteArea);
 });

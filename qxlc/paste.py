@@ -40,7 +40,7 @@ def action_paste():
     raw_id = store_data("paste", hashlib.md5(data.encode()).hexdigest())  # use md5sum as data to detect duplicates
     filepath = os.path.join(paste_path, str(raw_id))
     if not os.path.exists(filepath):
-        with codecs.open(filepath, "xb", encoding="utf-8", errors="replace") as f:
+        with codecs.open(filepath, "w", encoding="utf-8", errors="replace") as f:
             f.write(data)
     return "{}/{}".format(base_url, encode_id(raw_id))
 

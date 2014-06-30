@@ -11,7 +11,7 @@ from flask.globals import request
 from flask.wrappers import Response
 from pygments import highlight
 from pygments.formatters.html import HtmlFormatter
-from pygments.lexers import guess_lexer, get_lexer_for_filename, get_all_lexers
+from pygments.lexers import get_lexer_for_filename, get_all_lexers, guess_lexer
 from pygments.lexers.special import TextLexer
 from pygments.util import ClassNotFound
 
@@ -27,9 +27,28 @@ if not os.path.exists(paste_path):
 _formatter = HtmlFormatter(linenos="table")
 _highlight_css = cssmin.cssmin(_formatter.get_style_defs("body"))
 
-_all_lexers = sorted([(l[0], l[2][0]) for l in get_all_lexers() if l[2]], key=itemgetter(0))
-_all_lexers = [(title, extension[2:]) for title, extension in _all_lexers if
-               len(title.split()) == 1 and re.match(r"^\*\.[a-zA-Z0-9]+$", extension)]
+_lexer_names = sorted([(l[0], l[2][0]) for l in get_all_lexers() if l[2]], key=itemgetter(0))
+_lexer_names = [(title, extension[2:]) for title, extension in _lexer_names if
+                len(title.split()) == 1 and re.match(r"^\*\.[a-zA-Z0-9]+$", extension)]
+
+
+# def guess_lexer(_text, **options):
+# """
+#     Guess a lexer by strong distinctions in the text (eg, shebang).
+#     This is a modified version of pygments.lexers.guess_lexer that takes into account parsing errors.
+#     """
+#     best_lexer = [0, 0, None]
+#     for lexer in _iter_lexerclasses():
+#         lexer_instance = lexer(**options)
+#         tokens = (token[0] for token in pygments.lex(_text, lexer_instance))
+#         if Token.Error in tokens:
+#             continue
+#         analyzed = lexer.analyse_text(_text)
+#         if analyzed > best_lexer[0]:
+#             best_lexer[:] = (rv, lexer)
+#         return
+#
+#     return TextLexer(**options)
 
 
 @app.route("/api/paste", methods=["POST"])
@@ -60,7 +79,7 @@ def view_paste(encoded_id, raw_id, file_extension=None):
     except ClassNotFound:
         lexer = TextLexer()
 
-    return render_template("paste.html", lexers=_all_lexers,
+    return render_template("paste.html", lexers=_lexer_names,
                            lexer_url="{}/{}.".format(base_url, encoded_id),
                            raw_url="{}/raw/{}".format(base_url, encoded_id),
                            current_lexer=lexer.name,

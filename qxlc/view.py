@@ -1,7 +1,7 @@
 from flask import render_template, redirect, abort
 from flask.wrappers import Response
 
-from qxlc import app, paste
+from qxlc import app, paste, images
 from qxlc.database import get_data, decode_id, type_id
 
 
@@ -9,6 +9,7 @@ from qxlc.database import get_data, decode_id, type_id
 def index():
     return render_template("index.html")
 
+# TODO: Add support for uploading images to index.html
 
 @app.route("/<encoded_id>")
 @app.route("/<encoded_id>.<file_extension>")
@@ -28,6 +29,8 @@ def get_result(encoded_id, file_extension=None):
         return redirect(data)
     elif data_type == type_id("paste"):
         return paste.view_paste(encoded_id, raw_id, file_extension=file_extension)
+    elif data_type == type_id("image"):
+        return images.raw_image(raw_id)
 
     # we don't know about this id type, why is it in our database?
     raise ValueError("Invalid data_type: {}".format(data_type))
@@ -49,3 +52,5 @@ def get_raw(encoded_id):
         return Response(data, mimetype="text/plain")
     elif data_type == type_id("paste"):
         return paste.raw_paste(raw_id)
+    elif data_type == type_id("image"):
+        return images.raw_image(raw_id)

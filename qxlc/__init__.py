@@ -20,6 +20,9 @@ import sys
 
 from flask import Flask
 from flask.ext.assets import Environment, Bundle
+from webassets.filter import register_filter
+
+from qxlc.util.slimit_filter import SlimitFilter
 
 __all__ = ["app", "config", "base_url", "database"]
 
@@ -77,13 +80,16 @@ config = get_config()
 
 app = Flask(__name__)
 
+# Register slimit filter
+register_filter(SlimitFilter)
+
 # assets
 
 assets = Environment(app)
 layout_css_bundle = Bundle("css/bootstrap.css", "css/footer.css", filters='cssmin', output='css/layout.min.css')
-index_js_bundle = Bundle("js/jquery.js", "js/index.js", filters="jsmin", output="js/index.min.js")
+index_js_bundle = Bundle("js/jquery.js", "js/index.js", filters="slimit", output="js/index.min.js")
 paste_css_bundle = Bundle("css/bootstrap.css", "css/paste.css", filters="cssmin", output="css/paste.min.css")
-paste_js_bundle = Bundle("js/jquery.js", "js/bootstrap.js", filters="jsmin", output="js/paste.min.js")
+paste_js_bundle = Bundle("js/jquery.js", "js/bootstrap.js", filters="slimit", output="js/paste.min.js")
 assets.register("layout_css", layout_css_bundle)
 assets.register("index_js", index_js_bundle)
 assets.register("paste_css", paste_css_bundle)

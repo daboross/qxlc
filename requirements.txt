@@ -5,4 +5,4 @@ flask
 flask-assets
 htmlmin
 cssmin
-jsmin
+slimit

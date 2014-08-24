@@ -1,6 +1,6 @@
 from datetime import datetime
-
 from sqlalchemy import MetaData, create_engine, Table, Column, String, select
+
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.sql.sqltypes import Integer, DateTime
 

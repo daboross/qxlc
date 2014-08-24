@@ -1,5 +1,6 @@
-import htmlmin
 from markupsafe import Markup
+
+import htmlmin
 
 from qxlc import app
 

@@ -9,6 +9,7 @@ from qxlc.database import get_data, decode_id, type_id
 def index():
     return render_template("index.html")
 
+
 # TODO: Add support for uploading images to index.html
 
 @app.route("/<encoded_id>")

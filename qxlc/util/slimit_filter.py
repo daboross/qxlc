@@ -5,7 +5,7 @@ from webassets.filter import Filter
 class SlimitFilter(Filter):
     name = 'slimit'
 
-    def output(self, _in, out, **kw):
+    def output(self, _in, out, **kwargs):
         out.write(minify(_in.read()))
 
     def input(self, _in, out, **kwargs):

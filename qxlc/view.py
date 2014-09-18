@@ -31,7 +31,7 @@ def get_result(encoded_id, file_extension=None):
     elif data_type == type_id("paste"):
         return paste.view_paste(encoded_id, raw_id, file_extension=file_extension)
     elif data_type == type_id("image"):
-        return images.raw_image(raw_id)
+        return images.raw_image(raw_id, data)
 
     # we don't know about this id type, why is it in our database?
     raise ValueError("Invalid data_type: {}".format(data_type))
@@ -54,4 +54,4 @@ def get_raw(encoded_id):
     elif data_type == type_id("paste"):
         return paste.raw_paste(raw_id)
     elif data_type == type_id("image"):
-        return images.raw_image(raw_id)
+        return images.raw_image(raw_id, data)

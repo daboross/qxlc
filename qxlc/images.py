@@ -12,7 +12,7 @@ from qxlc import app, base_url, config
 from qxlc.database import encode_id, store_data
 
 upload_path = os.path.join(os.path.abspath("data"), "images")
-allowed_extensions = ["png"]
+allowed_extensions = ["png", "jpg"]
 app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024  # allow up to 1 MiB TODO: configurable this
 
 if not os.path.exists(upload_path):
@@ -49,7 +49,8 @@ def action_image():
             md5sum.update(data)
             temp_file.write(data)
 
-    raw_id = store_data("image", md5sum.hexdigest())  # use md5sum as data to detect duplicates
+    # use md5sum as data to detect duplicates
+    raw_id = store_data("image", "image/" + file.filename.rsplit('.', 1)[1] + ":" + md5sum.hexdigest())
 
     filepath = os.path.join(upload_path, str(raw_id))
 
@@ -61,11 +62,16 @@ def action_image():
     return "{}/{}".format(base_url, encode_id(raw_id))
 
 
-def raw_image(raw_id):
+def raw_image(raw_id, data):
     filepath = os.path.join(upload_path, str(raw_id))
     if not os.path.exists(filepath):
         return abort(404)
 
-    return send_file(filepath, mimetype='image/png')
+    if ':' in data:
+        extension = data.split(':')[0]
+    else:
+        extension = 'image/png'
+
+    return send_file(filepath, mimetype=extension)
 
 # TODO: make front for images like paste, and only use raw_image in the /raw/ url.

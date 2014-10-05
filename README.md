@@ -12,6 +12,16 @@ Will eventually contain:
 
 This is a work in progress. Its current state runs at http://qx.lc.
 
+#### Finding pastes with incorrect md5sums.
+
+I don't yet know how this might happen, but incase it does, do this:
+
+```
+echo "select id, data from qxlc_data where type = 1;" | sqlite3 qxlc.db | python3 script.py | sqlite3 qxlc.db
+```
+
+If you are experiencing pasting something and having the resulting url have different content, the above may fix it.
+
 #### Installing
 You can install qx.lc on your own server through apache2. Here's what you need to do:
 

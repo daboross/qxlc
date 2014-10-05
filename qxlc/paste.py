@@ -11,7 +11,7 @@ from flask.globals import request
 from flask.wrappers import Response
 from pygments import highlight
 from pygments.formatters.html import HtmlFormatter
-from pygments.lexers import get_lexer_for_filename, get_all_lexers, guess_lexer
+from pygments.lexers import get_lexer_for_filename, get_all_lexers
 from pygments.lexers.special import TextLexer
 from pygments.util import ClassNotFound
 
@@ -75,7 +75,7 @@ def view_paste(encoded_id, raw_id, file_extension=None):
         if file_extension is not None:
             lexer = get_lexer_for_filename("*." + file_extension, code=data)
         else:
-            lexer = guess_lexer(data)
+            lexer = TextLexer()
     except ClassNotFound:
         lexer = TextLexer()
 

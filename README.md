@@ -17,7 +17,8 @@ This is a work in progress. Its current state runs at http://qx.lc.
 I don't yet know how this might happen, but incase it does, do this:
 
 ```
-echo "select id, data from qxlc_data where type = 1;" | sqlite3 qxlc.db | python3 script.py | sqlite3 qxlc.db
+echo "select id, data from qxlc_data where type = 1;" | sqlite3 qxlc.db | python3 script.py pastes | sqlite3 qxlc.db
+echo "select id, data from qxlc_data where type = 2;" | sqlite3 qxlc.db | python3 script.py images | sqlite3 qxlc.db
 ```
 
 If you are experiencing pasting something and having the resulting url have different content, the above may fix it.

@@ -1,20 +1,29 @@
-function submitLink() {
-    var $linkArea = $("#link-area");
-    var original_url = $linkArea.val();
-    $linkArea.val("");
+var valid_url = /^(?:(?:http|ftp)s?:\/\/)?(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::\d+)?(?:\/ ?|[\/?]\S+)$/;
+
+function submitContent() {
+    var $contentArea = $("#content-area");
+    var data = $contentArea.val();
+    $contentArea.val("");
 
     var $resultRow = $('<tr/>');
-    var $resultLeft = $('<p/>').text(truncateData(original_url));
-    var $resultRight = $('<p>').text('Submitting...');
-    $resultRow.append($('<td/>').append($resultLeft));
-    $resultRow.append($('<td/>').append($resultRight));
+    var $column1 = $('<p/>');
+    var $column2 = $('<p/>').text(truncateData(data));
+    var $column3 = $('<p/>').text('Submitting...');
+    if (valid_url.test(data)) {
+        $column1.text("Url");
+    } else {
+        $column1.text("Paste");
+    }
+    $resultRow.append($('<td/>').append($column1));
+    $resultRow.append($('<td/>').append($column2));
+    $resultRow.append($('<td/>').append($column3));
     $('#results-table').prepend($resultRow);
 
     var $request = $.ajax(
         {
-            url: "/api/shorten",
+            url: "/api/generic-submit",
             type: "POST",
-            data: {"url": original_url},
+            data: {"content": data},
             dataType: "text"
         }
     );
@@ -22,7 +31,7 @@ function submitLink() {
         $('#results-div').show();
         var $resultInner = $("<input/>").attr("type", "text").attr("class", "form-control").val(data);
         var $newResult = $("<p/>").append($resultInner);
-        $resultRight.replaceWith($newResult);
+        $column3.replaceWith($newResult);
         $resultInner.click(function () {
             selectAll($resultInner);
         });
@@ -31,44 +40,7 @@ function submitLink() {
     $request.fail(function (data, textStatus, jqXHR) {
         $('#results-div').show();
         var $newResult = $("<p/>").text("Failed: " + data.responseText);
-        $resultRight.replaceWith($newResult);
-    });
-}
-
-function submitPaste() {
-    var $pastArea = $("#paste-area");
-    var data = $pastArea.val();
-    $pastArea.val("");
-
-    var $resultRow = $('<tr/>');
-    var $resultLeft = $('<p/>').text(truncateData(data));
-    var $resultRight = $('<p>').text('Submitting...');
-    $resultRow.append($('<td/>').append($resultLeft));
-    $resultRow.append($('<td/>').append($resultRight));
-    $('#results-table').prepend($resultRow);
-
-    var $request = $.ajax(
-        {
-            url: "/api/paste",
-            type: "POST",
-            data: {"paste": data},
-            dataType: "text"
-        }
-    );
-    $request.success(function (data, textStatus, jqXHR) {
-        $('#results-div').show();
-        var $resultInner = $("<input/>").attr("type", "text").attr("class", "form-control").val(data);
-        var $newResult = $("<p/>").append($resultInner);
-        $resultRight.replaceWith($newResult);
-        $resultInner.click(function () {
-            selectAll($resultInner);
-        });
-        selectAll($resultInner);
-    });
-    $request.fail(function (data, textStatus, jqXHR) {
-        $('#results-div').show();
-        var $newResult = $("<p/>").text("Failed: " + data.responseText);
-        $resultRight.replaceWith($newResult);
+        $column3.replaceWith($newResult);
     });
 }
 
@@ -93,28 +65,25 @@ function cursorSelect(element) {
 }
 
 $(document).ready(function () {
-    var linkArea = $('#link-area');
-    var pasteArea = $('#paste-area');
-    var linkSubmit = $('#link-submit');
-    var pasteSubmit = $('#paste-submit');
+    var contentArea = $('#content-area');
+    var contentSubmit = $('#content-submit');
 
-    linkArea.keydown(function (event) {
-        if (event.keyCode == 13) { // enter
-            submitLink();
-            return false;
-        }
-        return true;
-    });
-    pasteArea.keydown(function (event) {
+//    contentArea.keydown(function (event) {
+//        if (event.keyCode == 13) { // enter
+//            submitContent();
+//            return false;
+//        }
+//        return true;
+//    });
+    contentArea.keydown(function (event) {
         if (event.ctrlKey && event.keyCode == 83) { // ctrl+s
-            submitPaste();
+            submitContent();
             return false;
         }
         return true;
     });
 
-    linkSubmit.click(submitLink);
-    pasteSubmit.click(submitPaste);
+    contentSubmit.click(submitContent);
 
-    cursorSelect(pasteArea);
+    cursorSelect(contentArea);
 });

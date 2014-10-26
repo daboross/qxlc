@@ -11,32 +11,24 @@
                         {{ config["qxlc.header"]|safe }}
                     </div>
                     <div class="list-group-item">
-                        <h3 class="text-muted">Link</h3>
-
-                        <div class="row">
-                            <div class="col-md-10 col-xs-8">
-                                <input id="link-area" type="text" class="form-control" placeholder="http://example.com">
-                            </div>
-                            <div class="col-md-2 col-xs-4">
-                                <button id="link-submit" type="submit" class="btn btn-default text-center">
-                                    Submit
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="list-group-item">
-                        <h3 class="text-muted">Paste</h3>
-                        <textarea id="paste-area" rows=3 placeholder="Enter text here..."
-                                  class="form-control fill"></textarea>
-                        <button id="paste-submit" type=submit class="btn btn-default text-center fill">
+                        <p>
+                            Enter link below to shorten, or enter text to pastebin. You can use the ctrl+s keyboard
+                            shortcut to submit the content.
+                        </p>
+                        <p>
+                            A one-word paste will always be converted to a link if it is in the form of a url.
+                        </p>
+                        <textarea id="content-area" rows="10" class="form-control"
+                                  placeholder="Enter text or link"></textarea>
+                        <button id="content-submit" type="submit" class="btn btn-default btn-block text-center">
                             Submit
                         </button>
                     </div>
                 </div>
             </div>
-            <div id="results-div" class="col-md-4 col-xs-12" hidden>
-                <table id="results-table" class="table"></table>
-            </div>
+        </div>
+        <div id="results-div" class="col-md-4 col-xs-12" hidden>
+            <table id="results-table" class="table"></table>
         </div>
     </div>
 {% endblock %}

@@ -108,4 +108,4 @@ app.config["qxlc.title"] = title
 
 # imports
 
-from qxlc import database, minifier, errors, shorten, paste, images, view
+from qxlc import database, minifier, errors, shorten, paste, images, view, generic_submit

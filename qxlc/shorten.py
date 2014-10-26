@@ -31,7 +31,10 @@ def action_short():
     if not "url" in params:
         return "Missing parameter: url", 400
     url = params["url"]
+    return shorten_url(url)
 
+
+def shorten_url(url):
     if not valid_url.match(url):
         return "Invalid URL", 400
     if not url_with_protocol.match(url):
